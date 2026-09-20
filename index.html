@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Nilai & Kehadiran Tutorial</title>
+<style>
+  :root {
+    --bg: #f4f6fb; --panel: #fff; --ink: #14203a; --muted: #6b7a93; --line: #dfe5f0;
+    --blue: #1d4ed8; --blue-soft: #e8efff; --green: #0f9d58; --green-soft: #e4f6ec;
+    --amber: #b45309; --amber-soft: #fdf1dc; --red: #c0392b;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font: 16px/1.5 "Segoe UI", system-ui, -apple-system, sans-serif;
+         color: var(--ink); background: var(--bg); }
+  header { background: var(--blue); color: #fff; padding: 22px 16px; }
+  header div { max-width: 880px; margin: 0 auto; }
+  header h1 { margin: 0; font-size: 20px; }
+  header p { margin: 4px 0 0; opacity: .85; font-size: 14px; }
+  main { max-width: 880px; margin: 0 auto; padding: 18px 16px 60px; }
+  .kartu { background: var(--panel); border: 1px solid var(--line); border-radius: 12px;
+           padding: 18px; margin-bottom: 16px; }
+  form { display: flex; gap: 10px; flex-wrap: wrap; }
+  input { flex: 1 1 200px; font: inherit; padding: 11px 13px; border: 1px solid var(--line);
+          border-radius: 9px; background: #fff; color: var(--ink); }
+  input:focus { outline: 2px solid var(--blue); outline-offset: 1px; }
+  button { font: inherit; font-weight: 600; padding: 11px 20px; border: 0; border-radius: 9px;
+           background: var(--blue); color: #fff; cursor: pointer; }
+  button:disabled { opacity: .55; cursor: default; }
+  .hint { color: var(--muted); font-size: 13px; margin: 10px 0 0; }
+  .pesan { padding: 12px 14px; border-radius: 9px; background: var(--amber-soft);
+           color: var(--amber); margin-top: 14px; }
+  h2 { font-size: 18px; margin: 0 0 2px; }
+  h3 { font-size: 16px; margin: 0 0 2px; }
+  .sub { color: var(--muted); font-size: 13px; margin: 0 0 14px; }
+  .nim { font-variant-numeric: tabular-nums; letter-spacing: .5px; }
+  .hadiran { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+             gap: 8px; margin: 10px 0 4px; }
+  .p { border: 1px solid var(--line); border-radius: 9px; padding: 8px 10px; background: #fbfcfe; }
+  .p.ya { border-color: #bfe6cd; background: var(--green-soft); }
+  .p b { display: block; font-size: 13px; }
+  .p span { font-size: 12px; color: var(--muted); display: block; }
+  .p .st { font-size: 12px; font-weight: 600; margin-top: 3px; }
+  .p.ya .st { color: var(--green); }
+  .p.tidak .st { color: var(--muted); }
+  table { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 15px; }
+  th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); }
+  th { font-size: 12px; text-transform: uppercase; letter-spacing: .4px; color: var(--muted); }
+  td.v { text-align: right; font-variant-numeric: tabular-nums; }
+  tr.akhir td { font-weight: 700; color: var(--green); border-bottom: 0; font-size: 17px; }
+  .lencana { display: inline-block; background: var(--blue-soft); color: var(--blue);
+             border-radius: 99px; padding: 2px 10px; font-size: 12px; font-weight: 600; }
+  .rumus { font-size: 12px; color: var(--muted); margin: 12px 0 0; }
+  footer { text-align: center; color: var(--muted); font-size: 12px; padding: 0 16px 30px; }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #0f1420; --panel: #171e2d; --ink: #e8edf7; --muted: #94a3bc; --line: #2a3346;
+            --blue: #5b8cff; --blue-soft: #1d2942; --green: #4ade80; --green-soft: #17301f;
+            --amber: #fbbf24; --amber-soft: #2e2413; }
+    input { background: #101725; }
+    .p { background: #131a28; }
+    header { background: #16223c; }
+  }
+</style>
+</head>
+<body>
+<header><div>
+  <h1>Nilai &amp; Kehadiran Tutorial</h1>
+  <p>Universitas Terbuka &middot; Tutorial Tatap Muka</p>
+</div></header>
+
+<main>
+  <section class="kartu">
+    <h2>Masukkan NIM Anda</h2>
+    <p class="sub">Nilai hanya bisa dibuka oleh pemilik NIM.</p>
+    <form id="f">
+      <input id="nim" inputmode="numeric" autocomplete="off" placeholder="NIM, contoh: 858988947" required>
+      <input id="kunci" type="password" autocomplete="off" placeholder="kata kunci kelas" hidden>
+      <button id="btn">Lihat Nilai</button>
+    </form>
+    <p class="hint" id="hintKunci" hidden>Kata kunci kelas diberitahukan tutor saat tutorial.</p>
+    <p class="hint">Bila NIM Anda tidak ditemukan atau nilainya belum lengkap, hubungi tutor Anda.</p>
+    <div id="pesan"></div>
+  </section>
+  <div id="hasil"></div>
+</main>
+<footer id="kaki"></footer>
+
+<script>
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const angka = v => (v === null || v === undefined) ? "&ndash;" : Number(v).toLocaleString("id-ID", { maximumFractionDigits: 1 });
+const tanggal = t => {
+  if (!t) return "tanggal belum diisi";
+  const d = new Date(t + "T00:00:00");
+  return isNaN(d) ? t : d.toLocaleDateString("id-ID", { day: "numeric", month: "long", year: "numeric" });
+};
+
+function baris(nama, nilai, ket) {
+  return `<tr><td>${nama}${ket ? ` <span class="sub">${ket}</span>` : ""}</td><td class="v">${angka(nilai)}</td></tr>`;
+}
+
+function kartuMK(mk) {
+  const hadir = mk.pertemuan.filter(p => p.hadir).length;
+  const aktif = mk.pertemuan.reduce((a, p) => a + (p.aktif || 0), 0);
+  return `<section class="kartu">
+    <h3>${esc(mk.nama_mk)}</h3>
+    <p class="sub">${esc(mk.kode)}${mk.pokjar ? " &middot; " + esc(mk.pokjar) : ""}</p>
+    <span class="lencana">Hadir ${hadir} dari ${mk.pertemuan.length} pertemuan</span>
+    ${aktif ? `<span class="lencana">${aktif}&times; aktif bertanya/menanggapi</span>` : ""}
+    <div class="hadiran">${mk.pertemuan.map(p => `
+      <div class="p ${p.hadir ? "ya" : "tidak"}">
+        <b>Pertemuan ${p.n}</b>
+        <span>${esc(tanggal(p.tanggal))}</span>
+        ${p.materi ? `<span>${esc(p.materi)}</span>` : ""}
+        <div class="st">${p.hadir ? "Hadir" + (p.aktif ? ` &middot; aktif ${p.aktif}&times;` : "") : "Tidak hadir"}</div>
+      </div>`).join("")}</div>
+    <table>
+      <tr><th>Komponen</th><th class="v">Nilai</th></tr>
+      ${baris("NH", mk.nilai.nh, "kehadiran")}
+      ${baris("NA", mk.na, "keaktifan")}
+      ${baris("NTP", mk.ntp, "tugas partisipasi")}
+      ${mk.tugas.map((t, i) => baris(`Tugas Tutorial ${i + 1}`, t)).join("")}
+      ${baris("NTT", mk.nilai.ntt, "rata-rata tugas")}
+      ${baris("NP", mk.nilai.np, "40% NH + 30% NA + 30% NTP")}
+      <tr class="akhir"><td>Nilai Tutorial (NT)</td><td class="v">${angka(mk.nilai.nt)}</td></tr>
+    </table>
+    <p class="rumus">NT = (3 &times; NP + 7 &times; NTT) : 10. Tanda &ndash; berarti nilainya belum diisi tutor.</p>
+  </section>`;
+}
+
+let berkas = null;
+async function muat() {
+  if (berkas) return berkas;
+  const r = await fetch("nilai.json?" + Date.now());
+  if (!r.ok) throw new Error("Data nilai belum diunggah tutor.");
+  berkas = await r.json();
+  if (berkas.kunci_kelas) { $("#kunci").hidden = false; $("#hintKunci").hidden = false; }
+  return berkas;
+}
+
+const b64 = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
+
+async function buka(d, nim, kunciKelas) {
+  const bahan = await crypto.subtle.importKey("raw", new TextEncoder().encode(nim + ":" + kunciKelas),
+                                              "PBKDF2", false, ["deriveBits"]);
+  const dk = new Uint8Array(await crypto.subtle.deriveBits(
+    { name: "PBKDF2", salt: b64(d.salt), iterations: d.iter, hash: "SHA-256" }, bahan, 384));
+  const id = [...dk.slice(0, 16)].map(b => b.toString(16).padStart(2, "0")).join("");
+  const blok = d.rec[id];
+  if (!blok) return null;
+  const buf = b64(blok);
+  const kunci = await crypto.subtle.importKey("raw", dk.slice(16), "AES-GCM", false, ["decrypt"]);
+  const isi = await crypto.subtle.decrypt({ name: "AES-GCM", iv: buf.slice(0, 12) }, kunci, buf.slice(12));
+  return JSON.parse(new TextDecoder().decode(isi));
+}
+
+$("#f").onsubmit = async e => {
+  e.preventDefault();
+  const nim = $("#nim").value.replace(/\D+/g, "");
+  $("#pesan").innerHTML = ""; $("#hasil").innerHTML = ""; $("#kaki").textContent = "";
+  $("#btn").disabled = true; $("#btn").textContent = "Membuka…";
+  try {
+    const d = await muat();
+    if (d.kunci_kelas && !$("#kunci").value) throw new Error("Isi juga kata kunci kelas dari tutor Anda.");
+    const m = await buka(d, nim, $("#kunci").value);
+    if (!m) throw new Error(d.kunci_kelas
+      ? "NIM atau kata kunci kelas tidak cocok. Periksa lagi, atau hubungi tutor Anda."
+      : "NIM tidak ditemukan. Periksa lagi, atau hubungi tutor Anda.");
+    $("#hasil").innerHTML = `<section class="kartu">
+        <h2>${esc(m.nama)}</h2>
+        <p class="sub nim">NIM ${esc(m.nim)}${m.tutor ? " &middot; Tutor: " + esc(m.tutor) : ""}</p>
+      </section>` + m.mk.map(kartuMK).join("");
+    if (d.diperbarui) {
+      const t = new Date(d.diperbarui);
+      $("#kaki").textContent = "Data terakhir diperbarui tutor: " +
+        (isNaN(t) ? d.diperbarui : t.toLocaleString("id-ID", { dateStyle: "long", timeStyle: "short" }));
+    }
+    $("#hasil").scrollIntoView({ behavior: "smooth", block: "start" });
+  } catch (err) {
+    $("#pesan").innerHTML = `<div class="pesan">${esc(err.message)}</div>`;
+  } finally {
+    $("#btn").disabled = false; $("#btn").textContent = "Lihat Nilai";
+  }
+};
+muat().catch(() => {});
+</script>
+</body>
+</html>
