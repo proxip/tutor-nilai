@@ -4,150 +4,180 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
-<title>Nilai & Kehadiran Tutorial</title>
+<meta name="color-scheme" content="light dark">
+<title>Kehadiran &amp; Nilai Tutorial</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,600&family=Plus+Jakarta+Sans:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #f4f6fb; --panel: #fff; --ink: #14203a; --muted: #6b7a93; --line: #dfe5f0;
-    --blue: #1d4ed8; --blue-soft: #e8efff; --green: #0f9d58; --green-soft: #e4f6ec;
-    --amber: #b45309; --amber-soft: #fdf1dc; --red: #c0392b;
+    --kertas: #faf6ec;
+    --kertas-2: #fffdf7;
+    --tinta: #16324f;
+    --tinta-2: #5a6b7d;
+    --garis: #e3dac6;
+    --hadir: #2f7d5b;
+    --hadir-lembut: #e7f1ea;
+    --alpa: #b23a48;
+    --padi: #e8b23a;
+    --sans: "Plus Jakarta Sans", system-ui, "Segoe UI", sans-serif;
+    --serif: "Newsreader", Georgia, serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --kertas: #15171a; --kertas-2: #1c1f24; --tinta: #eee7d8; --tinta-2: #9aa4b0;
+      --garis: #333a42; --hadir: #6cc99b; --hadir-lembut: #1d2a25; --alpa: #e2717d; --padi: #f0c463;
+    }
   }
   * { box-sizing: border-box; }
-  body { margin: 0; font: 16px/1.5 "Segoe UI", system-ui, -apple-system, sans-serif;
-         color: var(--ink); background: var(--bg); }
-  header { background: var(--blue); color: #fff; padding: 22px 16px; }
-  header div { max-width: 880px; margin: 0 auto; }
-  header h1 { margin: 0; font-size: 20px; }
-  header p { margin: 4px 0 0; opacity: .85; font-size: 14px; }
-  main { max-width: 880px; margin: 0 auto; padding: 18px 16px 60px; }
-  .kartu { background: var(--panel); border: 1px solid var(--line); border-radius: 12px;
-           padding: 18px; margin-bottom: 16px; }
-  form { display: flex; gap: 10px; flex-wrap: wrap; }
-  input { flex: 1 1 200px; font: inherit; padding: 11px 13px; border: 1px solid var(--line);
-          border-radius: 9px; background: #fff; color: var(--ink); }
-  input:focus { outline: 2px solid var(--blue); outline-offset: 1px; }
-  button { font: inherit; font-weight: 600; padding: 11px 20px; border: 0; border-radius: 9px;
-           background: var(--blue); color: #fff; cursor: pointer; }
-  button:disabled { opacity: .55; cursor: default; }
-  .hint { color: var(--muted); font-size: 13px; margin: 10px 0 0; }
-  .pesan { padding: 12px 14px; border-radius: 9px; background: var(--amber-soft);
-           color: var(--amber); margin-top: 14px; }
-  h2 { font-size: 18px; margin: 0 0 2px; }
-  h3 { font-size: 16px; margin: 0 0 2px; }
-  .sub { color: var(--muted); font-size: 13px; margin: 0 0 14px; }
-  .nim { font-variant-numeric: tabular-nums; letter-spacing: .5px; }
-  .hadiran { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-             gap: 8px; margin: 10px 0 4px; }
-  .p { border: 1px solid var(--line); border-radius: 9px; padding: 8px 10px; background: #fbfcfe; }
-  .p.ya { border-color: #bfe6cd; background: var(--green-soft); }
-  .p b { display: block; font-size: 13px; }
-  .p span { font-size: 12px; color: var(--muted); display: block; }
-  .p .st { font-size: 12px; font-weight: 600; margin-top: 3px; }
-  .p.ya .st { color: var(--green); }
-  .p.tidak .st { color: var(--muted); }
-  table { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 15px; }
-  th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); }
-  th { font-size: 12px; text-transform: uppercase; letter-spacing: .4px; color: var(--muted); }
-  td.v { text-align: right; font-variant-numeric: tabular-nums; }
-  tr.akhir td { font-weight: 700; color: var(--green); border-bottom: 0; font-size: 17px; }
-  .lencana { display: inline-block; background: var(--blue-soft); color: var(--blue);
-             border-radius: 99px; padding: 2px 10px; font-size: 12px; font-weight: 600; }
-  .rumus { font-size: 12px; color: var(--muted); margin: 12px 0 0; }
-  footer { text-align: center; color: var(--muted); font-size: 12px; padding: 0 16px 30px; }
-  @media (prefers-color-scheme: dark) {
-    :root { --bg: #0f1420; --panel: #171e2d; --ink: #e8edf7; --muted: #94a3bc; --line: #2a3346;
-            --blue: #5b8cff; --blue-soft: #1d2942; --green: #4ade80; --green-soft: #17301f;
-            --amber: #fbbf24; --amber-soft: #2e2413; }
-    input { background: #101725; }
-    .p { background: #131a28; }
-    header { background: #16223c; }
+  html { -webkit-text-size-adjust: 100%; }
+  body { margin: 0; background: var(--kertas); color: var(--tinta); font: 400 16px/1.55 var(--sans); }
+  .lembar { max-width: 46rem; margin: 0 auto; padding: 0 16px 64px; }
+
+  .kop { padding: 40px 0 22px; border-bottom: 2px solid var(--tinta); margin-bottom: 26px; }
+  .kop h1 { font: 400 clamp(30px, 7vw, 46px)/1.05 var(--serif); margin: 0; letter-spacing: -.015em; }
+  .kop p { margin: 10px 0 0; color: var(--tinta-2); font-size: 14.5px; max-width: 33rem; }
+
+  form { display: grid; gap: 12px; grid-template-columns: 1fr; margin: 0; }
+  @media (min-width: 34rem) { form { grid-template-columns: 1.1fr 1fr auto; align-items: end; } }
+  .isian label { display: block; font-size: 13px; font-weight: 500; color: var(--tinta-2); margin-bottom: 5px; }
+  input {
+    width: 100%; font: 500 17px var(--sans); color: var(--tinta);
+    padding: 12px 13px; background: var(--kertas-2);
+    border: 1px solid var(--garis); border-bottom-width: 2px; border-radius: 3px;
   }
+  #nim { font-variant-numeric: tabular-nums; letter-spacing: .04em; }
+  input:focus-visible { outline: 2px solid var(--tinta); outline-offset: 1px; }
+  button {
+    font: 700 16px var(--sans); color: var(--kertas-2); background: var(--tinta);
+    border: 0; border-radius: 3px; padding: 14px 22px; cursor: pointer; width: 100%;
+  }
+  button:hover { background: #24486c; }
+  button[disabled] { background: var(--tinta-2); cursor: progress; }
+  .bantu { color: var(--tinta-2); font-size: 13.5px; margin: 12px 0 0; }
+  .salah {
+    margin: 16px 0 0; padding: 12px 14px; border-left: 3px solid var(--alpa);
+    background: var(--kertas-2); color: var(--alpa); font-size: 14.5px;
+  }
+
+  .diri { margin: 36px 0 0; padding-bottom: 18px; border-bottom: 1px solid var(--garis); }
+  .diri h2 { font: 400 clamp(24px, 5.5vw, 32px)/1.15 var(--serif); margin: 0; }
+  .diri p { margin: 7px 0 0; color: var(--tinta-2); font-size: 14px; }
+  .diri b { font-weight: 500; font-variant-numeric: tabular-nums; color: var(--tinta); }
+
+  .mk { margin: 32px 0 0; }
+  .mk-kop { display: flex; flex-wrap: wrap; gap: 14px 20px; align-items: baseline; justify-content: space-between; }
+  .mk h3 { font: 600 19px/1.3 var(--sans); margin: 0; max-width: 26rem; }
+  .mk .kode { color: var(--tinta-2); font-size: 13.5px; margin: 4px 0 0; }
+  .akhir { text-align: right; line-height: 1; }
+  .akhir .angka { font: 400 40px/1 var(--serif); font-variant-numeric: tabular-nums; }
+  .akhir .angka b { font-weight: 600; box-shadow: inset 0 -.28em 0 rgba(232, 178, 58, .45); }
+  .akhir .label { display: block; font-size: 12.5px; color: var(--tinta-2); margin-top: 7px; }
+  .akhir .belum { font-size: 13px; color: var(--tinta-2); border-bottom: 2px solid var(--padi); padding-bottom: 3px; }
+
+  .ringkas { margin: 18px 0 10px; font-size: 14.5px; }
+
+  .hari { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+  @media (min-width: 34rem) { .hari { grid-template-columns: repeat(8, 1fr); } }
+  .h {
+    background: var(--kertas-2); border: 1px solid var(--garis); border-radius: 3px;
+    padding: 9px 6px 10px; text-align: center;
+  }
+  .h.ya { background: var(--hadir-lembut); border-color: color-mix(in srgb, var(--hadir) 35%, transparent); }
+  .h .n { font: 400 21px/1 var(--serif); font-variant-numeric: tabular-nums; }
+  .h.ya .n { color: var(--hadir); font-weight: 600; }
+  .h.tidak .n { color: var(--tinta-2); }
+  .h .tgl { display: block; font-size: 11.5px; color: var(--tinta-2); margin-top: 4px; white-space: nowrap; }
+  .h .st { display: block; font-size: 11.5px; font-weight: 700; margin-top: 5px; }
+  .h.ya .st { color: var(--hadir); }
+  .h.tidak .st { color: var(--tinta-2); font-weight: 500; }
+  .h .tanya { display: block; font-size: 11px; color: var(--padi); font-weight: 700; margin-top: 2px; }
+
+  .materi { margin: 14px 0 0; padding: 0; list-style: none; columns: 2; column-gap: 26px;
+            font-size: 13px; color: var(--tinta-2); }
+  @media (max-width: 34rem) { .materi { columns: 1; } }
+  .materi li { break-inside: avoid; margin-bottom: 4px; }
+  .materi span { color: var(--tinta); font-variant-numeric: tabular-nums; }
+
+  .nilai { margin: 24px 0 0; }
+  .baris { display: grid; grid-template-columns: 9rem 1fr 3.2rem; gap: 12px; align-items: center;
+           padding: 8px 0; border-bottom: 1px solid var(--garis); }
+  @media (max-width: 26rem) { .baris { grid-template-columns: 7.2rem 1fr 3rem; gap: 8px; } }
+  .baris .apa { font-size: 14.5px; }
+  .baris .apa i { font-style: normal; color: var(--tinta-2); font-size: 12.5px; display: block; }
+  .bar { height: 6px; background: color-mix(in srgb, var(--garis) 60%, transparent); border-radius: 99px; overflow: hidden; }
+  .bar i { display: block; height: 100%; background: var(--tinta); border-radius: 99px; }
+  .baris.kosong .bar { opacity: .35; }
+  .baris .v { text-align: right; font: 500 16px var(--sans); font-variant-numeric: tabular-nums; }
+  .baris.kosong .v { color: var(--tinta-2); }
+  .baris.total { border-bottom: 0; padding-top: 13px; }
+  .baris.total .apa { font-weight: 700; }
+  .baris.total .bar i { background: var(--padi); }
+  .baris.total .v { font-weight: 700; font-size: 18px; }
+  .rumus { font-size: 12.5px; color: var(--tinta-2); margin: 12px 0 0; }
+
+  .kaki { margin: 42px 0 0; padding-top: 14px; border-top: 1px solid var(--garis);
+          font-size: 12.5px; color: var(--tinta-2); }
+  @media print { form, .bantu, .kop p { display: none; } body { background: #fff; } }
 </style>
 </head>
 <body>
-<header><div>
-  <h1>Nilai &amp; Kehadiran Tutorial</h1>
-  <p>Universitas Terbuka &middot; Tutorial Tatap Muka</p>
-</div></header>
+<div class="lembar">
 
-<main>
-  <section class="kartu">
-    <h2>Masukkan NIM Anda</h2>
-    <p class="sub">Nilai hanya bisa dibuka oleh pemilik NIM.</p>
-    <form id="f">
-      <input id="nim" inputmode="numeric" autocomplete="off" placeholder="NIM, contoh: 858988947" required>
-      <input id="kunci" type="password" autocomplete="off" placeholder="kata kunci kelas" hidden>
-      <button id="btn">Lihat Nilai</button>
-    </form>
-    <p class="hint" id="hintKunci" hidden>Kata kunci kelas diberitahukan tutor saat tutorial.</p>
-    <p class="hint">Bila NIM Anda tidak ditemukan atau nilainya belum lengkap, hubungi tutor Anda.</p>
-    <div id="pesan"></div>
-  </section>
-  <div id="hasil"></div>
-</main>
-<footer id="kaki"></footer>
+  <header class="kop">
+    <h1>Kehadiran &amp; Nilai Tutorial</h1>
+    <p>Masukkan NIM Anda untuk melihat daftar hadir dan nilai tutorial tatap muka semester ini.
+       Yang tampil hanya milik Anda sendiri.</p>
+  </header>
+
+  <form id="f" autocomplete="off">
+    <div class="isian">
+      <label for="nim">NIM</label>
+      <input id="nim" inputmode="numeric" placeholder="858988947" required>
+    </div>
+    <div class="isian" id="bungkusKunci" hidden>
+      <label for="kunci">Kata kunci kelas</label>
+      <input id="kunci" type="password" placeholder="dari tutor Anda">
+    </div>
+    <button id="btn">Buka nilai saya</button>
+  </form>
+  <p class="bantu" id="bantu">Belum tahu kata kuncinya? Tanyakan kepada tutor Anda saat tutorial.</p>
+  <div id="pesan"></div>
+
+  <main id="hasil"></main>
+  <p class="kaki" id="kaki" hidden></p>
+
+</div>
 
 <script>
 const $ = s => document.querySelector(s);
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
-const angka = v => (v === null || v === undefined) ? "&ndash;" : Number(v).toLocaleString("id-ID", { maximumFractionDigits: 1 });
-const tanggal = t => {
-  if (!t) return "tanggal belum diisi";
+const angka = v => (v === null || v === undefined) ? "–" : Number(v).toLocaleString("id-ID", { maximumFractionDigits: 1 });
+const BULAN = ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep", "Okt", "Nov", "Des"];
+const tglPendek = t => {
   const d = new Date(t + "T00:00:00");
-  return isNaN(d) ? t : d.toLocaleDateString("id-ID", { day: "numeric", month: "long", year: "numeric" });
+  return isNaN(d) ? "" : d.getDate() + " " + BULAN[d.getMonth()];
 };
-
-function baris(nama, nilai, ket) {
-  return `<tr><td>${nama}${ket ? ` <span class="sub">${ket}</span>` : ""}</td><td class="v">${angka(nilai)}</td></tr>`;
-}
-
-function kartuMK(mk) {
-  const hadir = mk.pertemuan.filter(p => p.hadir).length;
-  const aktif = mk.pertemuan.reduce((a, p) => a + (p.aktif || 0), 0);
-  return `<section class="kartu">
-    <h3>${esc(mk.nama_mk)}</h3>
-    <p class="sub">${esc(mk.kode)}${mk.pokjar ? " &middot; " + esc(mk.pokjar) : ""}</p>
-    <span class="lencana">Hadir ${hadir} dari ${mk.pertemuan.length} pertemuan</span>
-    ${aktif ? `<span class="lencana">${aktif}&times; aktif bertanya/menanggapi</span>` : ""}
-    <div class="hadiran">${mk.pertemuan.map(p => `
-      <div class="p ${p.hadir ? "ya" : "tidak"}">
-        <b>Pertemuan ${p.n}</b>
-        <span>${esc(tanggal(p.tanggal))}</span>
-        ${p.materi ? `<span>${esc(p.materi)}</span>` : ""}
-        <div class="st">${p.hadir ? "Hadir" + (p.aktif ? ` &middot; aktif ${p.aktif}&times;` : "") : "Tidak hadir"}</div>
-      </div>`).join("")}</div>
-    <table>
-      <tr><th>Komponen</th><th class="v">Nilai</th></tr>
-      ${baris("NH", mk.nilai.nh, "kehadiran")}
-      ${baris("NA", mk.na, "keaktifan")}
-      ${baris("NTP", mk.ntp, "tugas partisipasi")}
-      ${mk.tugas.map((t, i) => baris(`Tugas Tutorial ${i + 1}`, t)).join("")}
-      ${baris("NTT", mk.nilai.ntt, "rata-rata tugas")}
-      ${baris("NP", mk.nilai.np, "40% NH + 30% NA + 30% NTP")}
-      <tr class="akhir"><td>Nilai Tutorial (NT)</td><td class="v">${angka(mk.nilai.nt)}</td></tr>
-    </table>
-    <p class="rumus">NT = (3 &times; NP + 7 &times; NTT) : 10. Tanda &ndash; berarti nilainya belum diisi tutor.</p>
-  </section>`;
-}
 
 let berkas = null;
 async function muat() {
   if (berkas) return berkas;
   const r = await fetch("nilai.json?" + Date.now());
-  if (!r.ok) throw new Error("Data nilai belum diunggah tutor.");
+  if (!r.ok) throw new Error("Nilai belum diterbitkan tutor. Coba lagi nanti.");
   berkas = await r.json();
-  if (berkas.kunci_kelas) { $("#kunci").hidden = false; $("#hintKunci").hidden = false; }
+  if (berkas.kunci_kelas) $("#bungkusKunci").hidden = false;
+  else $("#bantu").textContent = "Cukup NIM, tanpa kata kunci.";
   return berkas;
 }
 
 const b64 = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
 
-async function buka(d, nim, kunciKelas) {
-  const bahan = await crypto.subtle.importKey("raw", new TextEncoder().encode(nim + ":" + kunciKelas),
+async function buka(d, nim, kataKunci) {
+  const bahan = await crypto.subtle.importKey("raw", new TextEncoder().encode(nim + ":" + kataKunci),
                                               "PBKDF2", false, ["deriveBits"]);
   const dk = new Uint8Array(await crypto.subtle.deriveBits(
     { name: "PBKDF2", salt: b64(d.salt), iterations: d.iter, hash: "SHA-256" }, bahan, 384));
-  const id = [...dk.slice(0, 16)].map(b => b.toString(16).padStart(2, "0")).join("");
-  const blok = d.rec[id];
+  const blok = d.rec[[...dk.slice(0, 16)].map(b => b.toString(16).padStart(2, "0")).join("")];
   if (!blok) return null;
   const buf = b64(blok);
   const kunci = await crypto.subtle.importKey("raw", dk.slice(16), "AES-GCM", false, ["decrypt"]);
@@ -155,32 +185,84 @@ async function buka(d, nim, kunciKelas) {
   return JSON.parse(new TextDecoder().decode(isi));
 }
 
+function barisNilai(apa, ket, nilai, kelas = "") {
+  const ada = nilai !== null && nilai !== undefined;
+  return `<div class="baris ${ada ? "" : "kosong"} ${kelas}">
+    <span class="apa">${apa}${ket ? `<i>${ket}</i>` : ""}</span>
+    <span class="bar"><i style="width:${ada ? Math.max(0, Math.min(100, nilai)) : 0}%"></i></span>
+    <span class="v">${angka(nilai)}</span>
+  </div>`;
+}
+
+function kartuMK(mk) {
+  const p = mk.pertemuan, hadir = p.filter(x => x.hadir).length;
+  const tanya = p.reduce((a, x) => a + (x.aktif || 0), 0);
+  const belum = p.filter(x => !x.tanggal).length;
+  return `<section class="mk">
+    <div class="mk-kop">
+      <div><h3>${esc(mk.nama_mk)}</h3>
+        <p class="kode">${esc(mk.kode)}${mk.pokjar ? ", pokjar " + esc(mk.pokjar) : ""}</p></div>
+      <div class="akhir">${mk.nilai.nt === null || mk.nilai.nt === undefined
+        ? `<span class="belum">Menunggu nilai tugas</span>`
+        : `<span class="angka"><b>${angka(mk.nilai.nt)}</b></span>
+           <span class="label">Nilai tutorial sementara</span>`}</div>
+    </div>
+
+    <p class="ringkas">Hadir <b>${hadir} dari ${p.length}</b> pertemuan${
+      tanya ? `, bertanya atau menanggapi <b>${tanya} kali</b>` : ""}.</p>
+
+    <div class="hari">${p.map(x => `
+      <div class="h ${x.hadir ? "ya" : "tidak"}">
+        <span class="n">${x.n}</span>
+        <span class="tgl">${esc(tglPendek(x.tanggal) || "—")}</span>
+        <span class="st">${x.hadir ? "Hadir" : "Tidak"}</span>
+        ${x.aktif ? `<span class="tanya">${x.aktif}× tanya</span>` : ""}
+      </div>`).join("")}</div>
+
+    <ul class="materi">${p.filter(x => x.materi).map(x =>
+      `<li><span>${x.n}.</span> ${esc(x.materi)}</li>`).join("")}</ul>
+
+    <div class="nilai">
+      ${barisNilai("NH", "kehadiran", mk.nilai.nh)}
+      ${barisNilai("NA", "keaktifan di kelas", mk.na)}
+      ${barisNilai("NTP", "tugas partisipasi", mk.ntp)}
+      ${mk.tugas.map((t, i) => barisNilai("Tugas " + (i + 1), "", t)).join("")}
+      ${barisNilai("NTT", "rata-rata tugas", mk.nilai.ntt)}
+      ${barisNilai("NP", "40% NH, 30% NA, 30% NTP", mk.nilai.np)}
+      ${barisNilai("Nilai tutorial", "3 NP + 7 NTT, dibagi 10", mk.nilai.nt, "total")}
+    </div>
+    <p class="rumus">Tanda – berarti nilainya belum diisi tutor${
+      belum ? `, dan ${belum} pertemuan belum dijadwalkan` : ""}.</p>
+  </section>`;
+}
+
 $("#f").onsubmit = async e => {
   e.preventDefault();
   const nim = $("#nim").value.replace(/\D+/g, "");
-  $("#pesan").innerHTML = ""; $("#hasil").innerHTML = ""; $("#kaki").textContent = "";
+  $("#pesan").innerHTML = ""; $("#hasil").innerHTML = ""; $("#kaki").hidden = true;
   $("#btn").disabled = true; $("#btn").textContent = "Membuka…";
   try {
     const d = await muat();
     if (d.kunci_kelas && !$("#kunci").value) throw new Error("Isi juga kata kunci kelas dari tutor Anda.");
     const m = await buka(d, nim, $("#kunci").value);
     if (!m) throw new Error(d.kunci_kelas
-      ? "NIM atau kata kunci kelas tidak cocok. Periksa lagi, atau hubungi tutor Anda."
-      : "NIM tidak ditemukan. Periksa lagi, atau hubungi tutor Anda.");
-    $("#hasil").innerHTML = `<section class="kartu">
+      ? "NIM atau kata kunci belum cocok. Periksa lagi, atau tanyakan ke tutor Anda."
+      : "NIM itu tidak ada dalam daftar. Periksa lagi, atau tanyakan ke tutor Anda.");
+    $("#hasil").innerHTML = `<div class="diri">
         <h2>${esc(m.nama)}</h2>
-        <p class="sub nim">NIM ${esc(m.nim)}${m.tutor ? " &middot; Tutor: " + esc(m.tutor) : ""}</p>
-      </section>` + m.mk.map(kartuMK).join("");
+        <p>NIM <b>${esc(m.nim)}</b>${m.tutor ? ", tutor " + esc(m.tutor) : ""}</p>
+      </div>` + m.mk.map(kartuMK).join("");
     if (d.diperbarui) {
       const t = new Date(d.diperbarui);
-      $("#kaki").textContent = "Data terakhir diperbarui tutor: " +
-        (isNaN(t) ? d.diperbarui : t.toLocaleString("id-ID", { dateStyle: "long", timeStyle: "short" }));
+      $("#kaki").textContent = "Diperbarui tutor pada " +
+        (isNaN(t) ? d.diperbarui : t.toLocaleString("id-ID", { dateStyle: "long", timeStyle: "short" })) +
+        ". Nilai masih bisa berubah sampai tutorial selesai.";
+      $("#kaki").hidden = false;
     }
-    $("#hasil").scrollIntoView({ behavior: "smooth", block: "start" });
   } catch (err) {
-    $("#pesan").innerHTML = `<div class="pesan">${esc(err.message)}</div>`;
+    $("#pesan").innerHTML = `<p class="salah">${esc(err.message)}</p>`;
   } finally {
-    $("#btn").disabled = false; $("#btn").textContent = "Lihat Nilai";
+    $("#btn").disabled = false; $("#btn").textContent = "Buka nilai saya";
   }
 };
 muat().catch(() => {});
