@@ -158,6 +158,14 @@
   .hitung .akhir .angka { color: var(--utama); font-size: 22px; }
   .hitung .panah { color: var(--ink-2); font-size: 13px; }
 
+  .asal { margin: 4px 0 0; padding: 0; list-style: none; font-size: 13.5px; }
+  .asal li { display: flex; justify-content: space-between; gap: 12px; padding: 7px 0; border-top: 1px solid var(--garis); }
+  .asal li span:first-child { color: var(--ink-2); }
+  .asal li span:last-child { flex: none; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .asal li.jumlah span { color: var(--ink); font-weight: 800; }
+  .asal li.jumlah span:last-child { color: var(--utama); }
+  .asal h4 { margin: 12px 0 2px; font-size: 13.5px; font-weight: 700; }
+  .asal h4:first-child { margin-top: 2px; }
   .catatan { font-size: 12.5px; color: var(--ink-2); margin: 14px 2px 0; }
   .kaki { text-align: center; font-size: 12.5px; color: var(--ink-2); margin: 22px 0 0; }
   .sembunyi { display: none !important; }
@@ -250,6 +258,38 @@ function ubin(kode, ket, nilai) {
   </div>`;
 }
 
+const baris = (k, v, cls = "") => `<li class="${cls}"><span>${k}</span><span>${v}</span></li>`;
+const tanda = v => (v >= 0 ? "+" : "") + angka(v);
+const daftarP = (p, f) => p.filter(x => f(x)).map(x => "P" + x.n).join(", ");
+
+// rincian asal NH, NA, NTP, NP supaya mahasiswa tahu dari mana tiap angka berasal
+function asalNilai(mk) {
+  const p = mk.pertemuan, hadir = p.filter(x => x.hadir).length, a = mk.na_asal, f = mk.ntp_asal;
+  let h = `<h4>NH (kehadiran)</h4><ul class="asal">
+    ${baris(`Hadir ${hadir} dari 8 pertemuan`, `${hadir} × 100 : 8`)}
+    ${baris("NH", angka(mk.nilai.nh), "jumlah")}</ul>`;
+  h += `<h4>NA (keaktifan)</h4><ul class="asal">`;
+  if (a) {
+    const pa = daftarP(p, x => x.aktif), pk = daftarP(p, x => x.kuis);
+    h += baris("Nilai awal", angka(a.awal));
+    if (a.aktif) h += baris(`Bertanya/menanggapi ${a.aktif}× (${pa}) × ${angka(a.poin)} poin`, tanda(a.aktif * a.poin));
+    if (a.kuis) h += baris(`Bonus kuis di kelas (${pk})`, tanda(a.kuis));
+    h += baris("NA" + (a.maks ? " (maksimal 100)" : ""), angka(mk.na), "jumlah");
+  } else h += mk.na == null ? baris("Belum diisi tutor", "–") : baris("Diisi langsung oleh tutor", angka(mk.na), "jumlah");
+  h += `</ul><h4>NTP (tugas partisipasi = diskusi online)</h4><ul class="asal">`;
+  if (f) {
+    const dihitung = f.filter(x => x.nilai != null);
+    f.forEach(x => h += baris(`${esc(x.forum)}${x.ket === "dinilai" ? "" : ` <i>(${esc(x.ket)})</i>`}`, x.nilai == null ? "–" : angka(x.nilai)));
+    h += baris(`NTP = rata-rata ${dihitung.length} forum`, angka(mk.ntp), "jumlah");
+  } else h += mk.ntp == null ? baris("Belum diisi tutor", "–") : baris("Diisi langsung oleh tutor", angka(mk.ntp), "jumlah");
+  h += `</ul><h4>NP (nilai partisipasi)</h4><ul class="asal">
+    ${baris("40% × NH", angka(mk.nilai.nh * 0.4))}
+    ${baris("30% × NA", angka((mk.na ?? 0) * 0.3))}
+    ${baris("30% × NTP", angka((mk.ntp ?? 0) * 0.3))}
+    ${baris("NP", angka(mk.nilai.np), "jumlah")}</ul>`;
+  return h;
+}
+
 function kartuMK(mk) {
   const p = mk.pertemuan, hadir = p.filter(x => x.hadir).length;
   const tanya = p.reduce((a, x) => a + (x.aktif || 0), 0);
@@ -295,6 +335,10 @@ function kartuMK(mk) {
         ${ubin("NTP", "tugas partisipasi", mk.ntp)}
         ${ubin("NP", "gabungan tiga di kiri", mk.nilai.np)}
       </div>
+      <details>
+        <summary>Dari mana nilai ini berasal?</summary>
+        ${asalNilai(mk)}
+      </details>
 
       <p class="judul-kecil" style="margin-top:16px">Tugas tutorial</p>
       <div class="ubin">
