@@ -274,13 +274,14 @@ function asalNilai(mk) {
     h += baris("Nilai awal", angka(a.awal));
     if (a.aktif) h += baris(`Bertanya/menanggapi ${a.aktif}× (${pa}) × ${angka(a.poin)} poin`, tanda(a.aktif * a.poin));
     if (a.kuis) h += baris(`Bonus kuis di kelas (${pk})`, tanda(a.kuis));
-    h += baris("NA" + (a.maks ? " (maksimal 100)" : ""), angka(mk.na), "jumlah");
+    h += baris("NA" + (a.maks ? ` (maksimal 100${a.lebih ? `, kelebihan ${angka(a.lebih)} masuk ke NTP` : ""})` : ""), angka(mk.na), "jumlah");
   } else h += mk.na == null ? baris("Belum diisi tutor", "–") : baris("Diisi langsung oleh tutor", angka(mk.na), "jumlah");
   h += `</ul><h4>NTP (tugas partisipasi = diskusi online)</h4><ul class="asal">`;
   if (f) {
-    const dihitung = f.filter(x => x.nilai != null);
-    f.forEach(x => h += baris(`${esc(x.forum)}${x.ket === "dinilai" ? "" : ` <i>(${esc(x.ket)})</i>`}`, x.nilai == null ? "–" : angka(x.nilai)));
-    h += baris(`NTP = rata-rata ${dihitung.length} forum`, angka(mk.ntp), "jumlah");
+    const dihitung = f.forum.filter(x => x.nilai != null);
+    f.forum.forEach(x => h += baris(`${esc(x.forum)}${x.ket === "dinilai" ? "" : ` <i>(${esc(x.ket)})</i>`}`, x.nilai == null ? "–" : angka(x.nilai)));
+    if (f.bonus) h += baris("Kelebihan NA ditambahkan ke tiap forum", tanda(f.bonus));
+    h += baris(`NTP = rata-rata ${dihitung.length} forum${f.bonus ? " + kelebihan NA (maksimal 100)" : ""}`, angka(mk.ntp), "jumlah");
   } else h += mk.ntp == null ? baris("Belum diisi tutor", "–") : baris("Diisi langsung oleh tutor", angka(mk.ntp), "jumlah");
   h += `</ul><h4>NP (nilai partisipasi)</h4><ul class="asal">
     ${baris("40% × NH", angka(mk.nilai.nh * 0.4))}
