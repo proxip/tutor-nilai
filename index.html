@@ -344,7 +344,7 @@ function kartuMK(mk) {
       <p class="judul-kecil" style="margin-top:16px">Tugas tutorial</p>
       <div class="ubin">
         ${mk.tugas.map((t, i) => ubin("Tugas " + (i + 1), "nilai tugas", t)).join("")}
-        ${ubin("NTT", "rata-rata tugas", mk.nilai.ntt)}
+        ${ubin("NTT", "(tugas 1 + 2 + 3) : 3", mk.nilai.ntt)}
       </div>
 
       <div class="hitung">
@@ -354,7 +354,7 @@ function kartuMK(mk) {
         <span class="bagian akhir"><span class="nama">nilai tutorial</span><span class="angka">${angka(mk.nilai.nt)}</span></span>
       </div>
     </div>
-    <p class="catatan">Nilai tutorial = (3 × NP + 7 × NTT) : 10. Tanda – berarti tutor belum mengisinya.</p>
+    <p class="catatan">Nilai tutorial = (3 × NP + 7 × NTT) : 10. Tugas yang belum ada nilainya dihitung 0. Kehadiran kurang dari 5 pertemuan membuat nilai tutorial 0. Tanda – berarti tutor belum mengisinya.</p>
   </article>`;
 }
 
