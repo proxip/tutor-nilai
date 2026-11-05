@@ -167,6 +167,9 @@
   .asal h4 { margin: 12px 0 2px; font-size: 13.5px; font-weight: 700; }
   .asal h4:first-child { margin-top: 2px; }
   .catatan { font-size: 12.5px; color: var(--ink-2); margin: 14px 2px 0; }
+  .rumus li span:first-child { flex: none; }
+  .rumus li span:last-child { flex: 0 1 auto; min-width: 0; text-align: right; }
+  .peringatan { color: var(--alpa); font-weight: 600; }
   .kaki { text-align: center; font-size: 12.5px; color: var(--ink-2); margin: 22px 0 0; }
   .sembunyi { display: none !important; }
   @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
@@ -291,6 +294,27 @@ function asalNilai(mk) {
   return h;
 }
 
+// rumus lengkap + angka mahasiswa ini
+function rumusNilai(mk) {
+  const hadir = mk.pertemuan.filter(x => x.hadir).length, n = mk.nilai;
+  const kosong = mk.tugas.map((t, i) => t == null ? "Tugas " + (i + 1) : "").filter(Boolean);
+  const peringatan = [];
+  if (n.ntt != null && kosong.length) peringatan.push(`${kosong.join(" dan ")} belum ada nilainya, jadi dihitung 0.`);
+  if (n.nt != null && hadir < 5) peringatan.push(`Kehadiran Anda ${hadir} pertemuan, kurang dari 5, jadi nilai tutorial 0.`);
+  return `<h4>Rumus</h4><ul class="asal rumus">
+    ${baris("NH", "hadir × 100 : 8")}
+    ${baris("NA", "nilai awal + keaktifan + kuis, maks. 100")}
+    ${baris("NTP", "rata-rata forum diskusi + kelebihan NA, maks. 100")}
+    ${baris("NP", "40% NH + 30% NA + 30% NTP")}
+    ${baris("NTT", "(Tugas 1 + Tugas 2 + Tugas 3) : 3")}
+    ${baris("Nilai tutorial", "(3 × NP + 7 × NTT) : 10")}</ul>
+    ${n.ntt == null ? "" : `<h4>Hitungan Anda</h4><ul class="asal rumus">
+    ${baris("NTT", `(${mk.tugas.map(t => angka(t ?? 0)).join(" + ")}) : 3 = ${angka(n.ntt)}`)}
+    ${baris("Nilai tutorial", hadir < 5 ? "0" : `(3 × ${angka(n.np)} + 7 × ${angka(n.ntt)}) : 10 = ${angka(n.nt)}`, "jumlah")}</ul>`}
+    ${peringatan.length ? `<p class="catatan peringatan">${peringatan.join(" ")}</p>` : ""}
+    <p class="catatan">Tugas yang kosong dihitung 0. Kehadiran kurang dari 5 pertemuan membuat nilai tutorial 0. Rumus NTT dan nilai tutorial mengikuti sistem tutorial UT. Angka dibulatkan 1 desimal, jadi bisa selisih sedikit.</p>`;
+}
+
 function kartuMK(mk) {
   const p = mk.pertemuan, hadir = p.filter(x => x.hadir).length;
   const tanya = p.reduce((a, x) => a + (x.aktif || 0), 0);
@@ -353,8 +377,12 @@ function kartuMK(mk) {
         <span class="panah">menghasilkan</span>
         <span class="bagian akhir"><span class="nama">nilai tutorial</span><span class="angka">${angka(mk.nilai.nt)}</span></span>
       </div>
+      <details open>
+        <summary>Cara menghitung nilai</summary>
+        ${rumusNilai(mk)}
+      </details>
     </div>
-    <p class="catatan">Nilai tutorial = (3 × NP + 7 × NTT) : 10. Tugas yang belum ada nilainya dihitung 0. Kehadiran kurang dari 5 pertemuan membuat nilai tutorial 0. Tanda – berarti tutor belum mengisinya.</p>
+    <p class="catatan">Tanda – berarti tutor belum mengisinya.</p>
   </article>`;
 }
 
